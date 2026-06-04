@@ -209,6 +209,32 @@ const app = (function() {
     setTimeout(function() { toast.style.display = 'none'; }, 3500);
   }
 
+
+  // ========== 模块切换 ==========
+  var currentModule = 'music';
+
+  function switchModule(name) {
+    if (name === currentModule) return;
+
+    document.querySelectorAll('#sidebar .sidebar-item').forEach(function(el) {
+      el.classList.toggle('active', el.dataset.module === name);
+    });
+
+    document.querySelectorAll('.module-panel').forEach(function(el) {
+      el.classList.toggle('active', el.id === 'module' + name.charAt(0).toUpperCase() + name.slice(1));
+    });
+
+    var searchWrap = document.getElementById('searchBoxWrap');
+    if (searchWrap) {
+      searchWrap.style.display = (name === 'music') ? 'flex' : 'none';
+    }
+
+    currentModule = name;
+
+    if (name !== 'music') {
+      document.getElementById('lyricPanel').classList.remove('open');
+    }
+  }
   // ========== 初始化 ==========
   function init() {
     renderSingers();
@@ -217,6 +243,9 @@ const app = (function() {
       if (e.key === 'Enter') searchLocal();
     });
     console.log('[App] FMusic 本地版已启动，共 ' + LOCAL_MUSIC.length + ' 首本地歌曲');
+
+    // 初始化书架模块
+    booksModule.render();
   }
 
   if (document.readyState === 'loading') {
@@ -230,6 +259,7 @@ const app = (function() {
     searchLocal: searchLocal,
     toggleLyricPanel: toggleLyricPanel,
     expandPlayer: expandPlayer,
-    downloadSong: downloadSong
+    downloadSong: downloadSong,
+    switchModule: switchModule
   };
 })();

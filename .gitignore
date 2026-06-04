@@ -1,3 +1,7 @@
 ﻿# Vercel
 .vercel
 node_modules
+
+# Playwright cache.playwright-cli/
+
+# Local GitHub token (do not commit).github-token
